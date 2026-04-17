@@ -1,0 +1,23 @@
+{
+  "name": "postkit-validation",
+  "version": "1.0.0",
+  "description": "Validation helpers for PostKit post data",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "keywords": [
+    "postkit",
+    "validation",
+    "typescript"
+  ],
+  "author": "Sunil",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^5.6.3",
+    "vitest": "^2.1.1"
+  }
+}
