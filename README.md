@@ -1,4 +1,4 @@
-# Postkit: Validation Library
+# PostKit Validation Library
 Validate post data before saving or publishing.
 
 ## Installation
@@ -61,57 +61,75 @@ Takes in a Post object and returns a list of validation issues.
 getPostValidationErrors(post: Post, options?: ValidationOptions): ValidationIssue[]
 ```
 
-### ValidationResult shape
+## Types
 ```ts
-ValidationResult = {
+interface Post {
+  id: string
+  title: string
+  body: string
+  author: string
+  tags: string[]
+  category: string
+  status: string
+  createdAt: string
+  updatedAt: string
+}
+
+interface ValidationIssue {
+  field: 'title' | 'body' | 'status' | 'post'
+  code: 'REQUIRED' | 'TOO_SHORT' | 'TOO_LONG' | 'INVALID_STATUS' | 'INVALID_TYPE'
+  message: string
+}
+
+interface ValidationResult {
   valid: boolean
   issues: ValidationIssue[]
 }
+
+type PostStatus = 'draft' | 'review' | 'published'
 ```
 
-ValidationIssue.code values:
-- REQUIRED
-- TOO_SHORT
-- TOO_LONG
-- INVALID_STATUS
-- INVALID_TYPE
-
-## Usage
+## Example Usage
 ```ts
 import {
   validateTitle,
   validateBody,
   validateStatus,
   validatePost,
-  isPostValid,
-  getPostValidationErrors,
-} from "postkit-validation-library";
+} from 'postkit-validation-library'
 
 const post = {
-  id: "p1",
-  title: "My First Draft",
-  body: "This is the body of my post with enough content to pass.",
-  author: "Sunil",
-  tags: ["writing", "intro"],
-  category: "General",
-  status: "draft",
+  id: 'p1',
+  title: 'Hello World',
+  body: 'Some content for the post body with enough length.',
+  author: 'Author',
+  tags: ['writing'],
+  category: 'General',
+  status: 'published',
   createdAt: new Date().toISOString(),
   updatedAt: new Date().toISOString(),
-};
+}
 
-console.log(validateTitle(post.title).valid); // true
-console.log(validateBody(post.body).valid); // true
-console.log(validateStatus(post.status).valid); // true
+validateTitle('My First Post')
+// -> { valid: true, issues: [] }
 
-const result = validatePost(post);
-console.log(result.valid); // true
+validateTitle('')
+// -> { valid: false, issues: [{ field: 'title', code: 'REQUIRED', message: 'title is required' }] }
 
-console.log(isPostValid(post)); // true
-console.log(getPostValidationErrors(post)); // []
+validateBody('Some content for the post body.')
+// -> { valid: true, issues: [] }
 
-const invalid = validatePost({ ...post, title: "Hi", status: "Draft" });
-console.log(invalid.valid); // false
-console.log(invalid.issues.map((x) => x.code)); // ["TOO_SHORT", "INVALID_STATUS"]
+validateStatus('draft')
+// -> { valid: true, issues: [] }
+
+validateStatus('pending')
+// -> { valid: false, issues: [{ field: 'status', code: 'INVALID_STATUS', message: 'status must be one of: draft, review, published' }] }
+
+validatePost(post)
+// -> { valid: true, issues: [] }
+
+validatePost({ ...post, title: '', body: '', status: 'bad' as any })
+// -> { valid: false, issues: [{...}, {...}, {...}] }
 ```
 
 ## Edge Cases
@@ -122,11 +140,6 @@ console.log(invalid.issues.map((x) => x.code)); // ["TOO_SHORT", "INVALID_STATUS
 - Leading/trailing whitespace should be handled consistently by validation rules.
 - Non-object inputs to validatePost (for example null or []) return INVALID_TYPE.
 - Type mismatches (non-string title/body/status) return INVALID_TYPE.
-
-## Changes From Week 1 API Proposal
-- Package name changed from postkit-validation-sunil to postkit-validation-library to avoid npm name conflicts.
-- Optional ValidationOptions are now part of validateTitle, validateBody, validatePost, isPostValid, and getPostValidationErrors.
-- Error behavior is now explicitly documented with structured ValidationIssue codes.
 
 ## Design Notes
 - Main validators return a consistent ValidationResult shape for predictable app integration.
