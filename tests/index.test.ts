@@ -13,7 +13,7 @@ const validPost: Post = {
   id: 'p1',
   title: 'A Valid Title',
   body: 'This body has enough characters to pass validation.',
-  author: 'Sunil',
+  author: 'Author',
   tags: ['writing'],
   category: 'General',
   status: 'draft',

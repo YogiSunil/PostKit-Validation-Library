@@ -1,6 +1,6 @@
 {
   "name": "postkit-validation-library",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Validation helpers for PostKit post data",
   "type": "commonjs",
   "main": "dist/index.js",
@@ -26,15 +26,6 @@
     "validation",
     "typescript"
   ],
-  "author": "Sunil",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/YogiSunil/PostKit-Validation-Library.git"
-  },
-  "homepage": "https://github.com/YogiSunil/PostKit-Validation-Library#readme",
-  "bugs": {
-    "url": "https://github.com/YogiSunil/PostKit-Validation-Library/issues"
-  },
   "license": "MIT",
   "devDependencies": {
     "typescript": "^5.6.3",
