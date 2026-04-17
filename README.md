@@ -3,7 +3,7 @@ Validate post data before saving or publishing.
 
 ## Installation
 ```bash
-npm i postkit-validation
+npm i postkit-validation-library
 ```
 
 ## API
@@ -85,7 +85,7 @@ import {
   validatePost,
   isPostValid,
   getPostValidationErrors,
-} from "postkit-validation";
+} from "postkit-validation-library";
 
 const post = {
   id: "p1",
@@ -124,7 +124,7 @@ console.log(invalid.issues.map((x) => x.code)); // ["TOO_SHORT", "INVALID_STATUS
 - Type mismatches (non-string title/body/status) return INVALID_TYPE.
 
 ## Changes From Week 1 API Proposal
-- Package name changed from postkit-validation-sunil to postkit-validation.
+- Package name changed from postkit-validation-sunil to postkit-validation-library to avoid npm name conflicts.
 - Optional ValidationOptions are now part of validateTitle, validateBody, validatePost, isPostValid, and getPostValidationErrors.
 - Error behavior is now explicitly documented with structured ValidationIssue codes.
 
